@@ -17,9 +17,35 @@ class ReposTableViewController: UITableViewController {
         
         self.tableView.accessibilityLabel = "tableView"
         
+        store.getRepositoriesFromAPI {
+            DispatchQueue.main.async {
+                // your code that touches the UI here, like, maybe:
+                self.tableView.reloadData()
+            }
+        }
+        
     }
 
     // MARK: - Table view data source
  
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return store.repositories.count
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "repoCell", for: indexPath)
+        
+        cell.textLabel?.text = store.repositories[indexPath.row].fullName
+        
+        return cell
+    }
+    
+    
+    
+    
 
 }
